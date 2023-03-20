@@ -1,0 +1,64 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<div class="text-center">
+    <h1>@wordToGuess</h1>
+    @foreach (var word in words)
+    {
+        <div class="text-center">@word</div>
+    }
+    <br/>
+    <button class="button-center" @onclick="NextWord">New word</button>
+</div>
+
+
+@code
+{
+    string csv = "data/words_data.csv";
+    string wordToGuess;
+    string[] words;
+    Random random = new();
+
+
+    protected override void OnInitialized()
+    {
+        NextWord();
+    }
+
+    private void NextWord()
+    {
+        using var reader = new StreamReader(csv);
+        int numberOfLines = NumberOfLines(reader);
+        int lineNumber = random.Next(0, numberOfLines);
+        for (int i = 0; i < lineNumber; i++)
+        {
+            reader.ReadLine();
+        }
+        string line = reader.ReadLine();
+        string[] values = line.Split(',');
+        ToPascalCase(values);
+        wordToGuess = values[0];
+        words = values.Skip(1).ToArray();
+    }
+
+    private int NumberOfLines(StreamReader reader)
+    {
+        var lineCount = 0;
+        while (reader.ReadLine() != null)
+        {
+            lineCount++;
+        }
+        reader.BaseStream.Seek(0, SeekOrigin.Begin);
+        return lineCount;
+    }
+
+    private static void ToPascalCase(string[] values)
+    {
+        for (int i = 0; i < values.Length; i++)
+        {
+            char firstLetter = char.ToUpper(values[i][0]);
+            values[i] = firstLetter + values[i][1..];
+        }
+    }
+}
