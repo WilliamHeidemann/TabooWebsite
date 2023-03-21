@@ -22,7 +22,6 @@ C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\staticwebassets.pack.js
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\staticwebassets.build.json
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\staticwebassets.development.json
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
-C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\scopedcss\bundle\Taboo.styles.css
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\scopedcss\projectbundle\Taboo.bundle.scp.css
 C:\Users\Willi\source\repos\Taboo\Taboo\obj\Debug\net7.0\Taboo.dll
