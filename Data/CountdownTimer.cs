@@ -5,11 +5,25 @@ public class CountdownTimer
 {
     private bool _timerRunning;
     public string TimerText = "Start Timer";
+    public string ButtonColor;
+
+    public CountdownTimer()
+    {
+        ChangeColor();
+    }
 
     public void TimerButton()
     {
         if(_timerRunning) StopTimer();
         else StartTimer();
+        ChangeColor();
+    }
+
+    private void ChangeColor()
+    {
+        ButtonColor = _timerRunning 
+            ? "background-color: #D70B5E;" 
+            : "background-color: #1b6ec2";
     }
 
     private async void StartTimer()
@@ -29,6 +43,7 @@ public class CountdownTimer
     private void StopTimer()
     {
         _timerRunning = false;
+        ChangeColor();
         TimerText = "Start Timer";
     }
 }

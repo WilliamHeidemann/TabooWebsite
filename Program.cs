@@ -7,6 +7,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<CountdownTimer>();
 builder.Services.AddSingleton<WordGeneration>();
+builder.Services.AddSingleton<PointsSystem>();
 
 var app = builder.Build();
 

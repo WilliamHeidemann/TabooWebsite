@@ -3,14 +3,14 @@
 @using System.Timers
 @inject WordGeneration wordGeneration
 @inject CountdownTimer CountdownTimer
-@inject NavigationManager NavigationManager;
+@inject PointsSystem Points;
 
 <PageTitle>Index</PageTitle>
 
 <div class="container">
     <div class="card text-center">
         <div class="card-body">
-            <button class="btn btn-primary mt-3" @onclick="CountdownTimer.TimerButton">@CountdownTimer.TimerText</button>
+            <button style="@CountdownTimer.ButtonColor" class="btn btn-primary mt-3" @onclick=@(() => { CountdownTimer.TimerButton(); wordGeneration.NextWord(); }) > @CountdownTimer.TimerText </button>
             <h1 class="card-title">@wordGeneration.wordToGuess</h1>
             <div class="card-text">
                 @foreach (var word in wordGeneration.words)
@@ -18,7 +18,9 @@
                     <div class="word">@word</div>
                 }
             </div>
-            <button class="btn btn-primary mt-3" @onclick="wordGeneration.NextWord">New word</button>
+            <button class="btn btn-primary mt-3" @onclick="wordGeneration.NextWord">Skip word</button>
+            <button class="btn btn-primary mt-3" @onclick=@(() => { Points.GainPoints(); wordGeneration.NextWord(); })>CORRECT</button>
+            <div style="font-size: 2rem; font-weight: bold; margin-top: 1rem;">Points: @Points.Points</div>
         </div>
     </div>
 </div>
@@ -56,7 +58,6 @@
 @code
 {
     private Timer _timer;
-
     protected override void OnInitialized()
     {
         wordGeneration.NextWord();
@@ -64,9 +65,5 @@
         _timer.Elapsed += OnTimerElapsed;
         _timer.Start();
     }
-
-    private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
-    {
-        InvokeAsync(StateHasChanged);
-    }
+    private void OnTimerElapsed(object? sender, ElapsedEventArgs e) => InvokeAsync(StateHasChanged);
 }
