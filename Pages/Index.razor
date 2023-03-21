@@ -1,18 +1,24 @@
 ﻿@page "/"
+@using Taboo.Data
+@using System.Timers
+@inject WordGeneration wordGeneration
+@inject CountdownTimer CountdownTimer
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Index</PageTitle>
 
 <div class="container">
     <div class="card text-center">
         <div class="card-body">
-            <h1 class="card-title">@wordToGuess</h1>
+            <button class="btn btn-primary mt-3" @onclick="CountdownTimer.TimerButton">@CountdownTimer.TimerText</button>
+            <h1 class="card-title">@wordGeneration.wordToGuess</h1>
             <div class="card-text">
-                @foreach (var word in words)
+                @foreach (var word in wordGeneration.words)
                 {
                     <div class="word">@word</div>
                 }
             </div>
-            <button class="btn btn-primary mt-3" @onclick="NextWord">New word</button>
+            <button class="btn btn-primary mt-3" @onclick="wordGeneration.NextWord">New word</button>
         </div>
     </div>
 </div>
@@ -30,6 +36,7 @@
         font-size: 3rem;
         font-weight: bold;
         margin-bottom: 1rem;
+        margin-top: 1rem;
     }
     .word {
         display: inline-block;
@@ -46,53 +53,20 @@
     }
 </style>
 
-
 @code
 {
-    string csv = "data/words_data.csv";
-    string wordToGuess;
-    string[] words;
-    Random random = new();
-
+    private Timer _timer;
 
     protected override void OnInitialized()
     {
-        NextWord();
+        wordGeneration.NextWord();
+        _timer = new Timer(1000);
+        _timer.Elapsed += OnTimerElapsed;
+        _timer.Start();
     }
 
-    private void NextWord()
+    private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
     {
-        using var reader = new StreamReader(csv);
-        int numberOfLines = NumberOfLines(reader);
-        int lineNumber = random.Next(0, numberOfLines);
-        for (int i = 0; i < lineNumber; i++)
-        {
-            reader.ReadLine();
-        }
-        string line = reader.ReadLine();
-        string[] values = line.Split(',');
-        ToPascalCase(values);
-        wordToGuess = values[0];
-        words = values.Skip(1).ToArray();
-    }
-
-    private int NumberOfLines(StreamReader reader)
-    {
-        var lineCount = 0;
-        while (reader.ReadLine() != null)
-        {
-            lineCount++;
-        }
-        reader.BaseStream.Seek(0, SeekOrigin.Begin);
-        return lineCount;
-    }
-
-    private static void ToPascalCase(string[] values)
-    {
-        for (int i = 0; i < values.Length; i++)
-        {
-            char firstLetter = char.ToUpper(values[i][0]);
-            values[i] = firstLetter + values[i][1..];
-        }
+        InvokeAsync(StateHasChanged);
     }
 }
