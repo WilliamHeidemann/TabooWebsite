@@ -2,15 +2,49 @@
 
 <PageTitle>Index</PageTitle>
 
-<div class="text-center">
-    <h1>@wordToGuess</h1>
-    @foreach (var word in words)
-    {
-        <div class="text-center">@word</div>
-    }
-    <br/>
-    <button class="button-center" @onclick="NextWord">New word</button>
+<div class="container">
+    <div class="card text-center">
+        <div class="card-body">
+            <h1 class="card-title">@wordToGuess</h1>
+            <div class="card-text">
+                @foreach (var word in words)
+                {
+                    <div class="word">@word</div>
+                }
+            </div>
+            <button class="btn btn-primary mt-3" @onclick="NextWord">New word</button>
+        </div>
+    </div>
 </div>
+<style>
+    .container {
+        margin: 50px auto;
+        max-width: 500px;
+    }
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    .word {
+        display: inline-block;
+        background-color: #f2f2f2;
+        border-radius: 20px;
+        padding: 5px 10px;
+        margin: 5px;
+        font-size: 1.2rem;
+    }
+    .btn {
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+    }
+</style>
 
 
 @code
